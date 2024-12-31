@@ -1,5 +1,4 @@
-﻿using System.Security.Cryptography.Pkcs;
-using AsyncSchoolApp.Models;
+﻿using AsyncSchoolApp.Models;
 using OfficeOpenXml;
 
 namespace AsyncSchoolApp.Services
@@ -7,11 +6,9 @@ namespace AsyncSchoolApp.Services
     public class StudentService
     {
         private readonly StudentRepository _studentRepository;
-        private readonly IWebHostEnvironment _env;
-        public StudentService(StudentRepository studentRepository, IWebHostEnvironment env)
+        public StudentService(StudentRepository studentRepository)
         {
             _studentRepository = studentRepository;
-            _env = env;
         }
 
         public async Task InitializeDatabase()
@@ -26,16 +23,10 @@ namespace AsyncSchoolApp.Services
 
         public async Task<string> SaveExcelFileAsync(List<Student> students)
         {
-            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-            var exportsDir = Path.Combine(_env.ContentRootPath, "Exports");
-            if (!Directory.Exists(exportsDir))
-            {
-                Directory.CreateDirectory(exportsDir);
-            }
-
             var fileName = $"Students_{Guid.NewGuid()}.xlsx";
-            var filePath = Path.Combine(exportsDir, fileName);
+            var filePath = Path.Combine("Exports", fileName);
 
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             using (var package = new ExcelPackage())
             {
                 var worksheet = package.Workbook.Worksheets.Add("Students");
@@ -45,7 +36,7 @@ namespace AsyncSchoolApp.Services
                 worksheet.Cells[1, 2].Value = "First Name";
                 worksheet.Cells[1, 3].Value = "Last Name";
                 worksheet.Cells[1, 4].Value = "Age";
-                worksheet.Cells[1, 4].Value = "Code";
+                worksheet.Cells[1, 5].Value = "Code";
 
                 // Add data rows
                 for (int i = 0; i < students.Count; i++)

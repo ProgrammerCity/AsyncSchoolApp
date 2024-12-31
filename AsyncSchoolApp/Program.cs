@@ -16,12 +16,18 @@ builder.Services.AddScoped<StudentService>();
 builder.Services.AddScoped<StudentRepository>();
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+var exportsDir = Path.Combine(app.Environment.ContentRootPath, "Exports");
+if (!Directory.Exists(exportsDir))
 {
+    Directory.CreateDirectory(exportsDir);
+}
+
+// Configure the HTTP request pipeline.
+//if (app.Environment.IsDevelopment())
+//{
     app.UseSwagger();
     app.UseSwaggerUI();
-}
+//}
 
 app.UseStaticFiles(new StaticFileOptions
 {
@@ -30,7 +36,7 @@ app.UseStaticFiles(new StaticFileOptions
     RequestPath = "/Exports"
 });
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
