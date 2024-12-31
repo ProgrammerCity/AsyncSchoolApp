@@ -20,7 +20,8 @@ namespace AsyncSchoolApp.Controllers
         public async Task<IActionResult> Get()
         {
             var student = await _studentService.GetStudentList();
-            var fileName = await  _studentService.SaveExcelFileAsync(student);
+            var fileId = Guid.NewGuid();
+            var fileName = await  _studentService.SaveExcelFileAsync(student,fileId);
             var fileUrl = $"{Request.Scheme}://{Request.Host}/Exports/{fileName}";
             return Ok(new StudentListDto() { Success =true , StudentCount = student.Count , Link = fileUrl});
         }

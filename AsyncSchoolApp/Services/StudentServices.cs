@@ -21,9 +21,9 @@ namespace AsyncSchoolApp.Services
             return await _studentRepository.GetAllStudents();
         }
 
-        public async Task<string> SaveExcelFileAsync(List<Student> students)
+        public async Task<string> SaveExcelFileAsync(List<Student> students,Guid id)
         {
-            var fileName = $"Students_{Guid.NewGuid()}.xlsx";
+            var fileName = $"Students_{id}.xlsx";
             var filePath = Path.Combine("Exports", fileName);
 
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
