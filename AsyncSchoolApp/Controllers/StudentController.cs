@@ -17,13 +17,12 @@ namespace AsyncSchoolApp.Controllers
         }
 
         [HttpGet(Name = "GetAllStudent")]
-        public async Task<IActionResult> Get(int? age)
+        public async Task<IActionResult> Get()
         {
-            var student = await _studentService.GetStudentList(age);
-            var fileId = Guid.NewGuid();
-            var fileName = await  _studentService.SaveExcelFileAsync(student,fileId);
+            var student = await _studentService.GetStudentList();
+            var fileName = await  _studentService.SaveExcelFileAsync(student);
             var fileUrl = $"{Request.Scheme}://{Request.Host}/Exports/{fileName}";
-            return Accepted(new StudentListDto() { Success =true , StudentCount = student.Count , Link = fileUrl});
+            return Ok(new StudentListDto() { Success =true , StudentCount = student.Count , Link = fileUrl});
         }
 
         [HttpPost("initialize")]
