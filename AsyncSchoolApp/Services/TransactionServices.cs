@@ -45,7 +45,7 @@ namespace AsyncBankApp.Services
                     worksheet.Cells[i + 2, 3].Value = transactions[i].LastName;
                     worksheet.Cells[i + 2, 4].Value = transactions[i].UserId;
                     worksheet.Cells[i + 2, 5].Value = transactions[i].SubmitDate.ToShortDateString();
-                    worksheet.Cells[i + 2, 6].Value = transactions[i].Amount;
+                    worksheet.Cells[i + 2, 6].Value = transactions[i].Amount.ToString("N0");
                 }
 
                 worksheet.Cells.AutoFitColumns();

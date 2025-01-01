@@ -1,7 +1,5 @@
 ﻿using AsyncBankApp.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Drawing;
 
 namespace AsyncBankApp.Services
 {
@@ -34,7 +32,7 @@ namespace AsyncBankApp.Services
                             FirstName = $"FirstName{i}",
                             LastName = $"LastName{i}",
                             SubmitDate = start.AddDays(rnd.Next(range)),
-                            Amount = rnd.Next(1_000_000, 5_000_000)
+                            Amount = (int)(Math.Round(rnd.Next(1_000_000, 5_000_000) / 1000.0) * 1000)
                         });
                         id++;
                     }
@@ -47,8 +45,9 @@ namespace AsyncBankApp.Services
         {
             //await Task.Delay(10_000);
             return await _context.Transactions
-                .Where(x => startDate == null || x.SubmitDate == DateTimeOffset.FromUnixTimeMilliseconds(startDate.Value).DateTime)
-                .Where(x => endDate == null || x.SubmitDate == DateTimeOffset.FromUnixTimeMilliseconds(endDate.Value).DateTime)
+                .Where(x => startDate == null || x.SubmitDate >= DateTimeOffset.FromUnixTimeSeconds(startDate.Value).DateTime)
+                .Where(x => endDate == null || x.SubmitDate < DateTimeOffset.FromUnixTimeSeconds(endDate.Value).DateTime)
+                .OrderBy(x => x.SubmitDate)
                 .ToListAsync();
         }
     }
