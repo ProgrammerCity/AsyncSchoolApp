@@ -1,3 +1,5 @@
+using System.Threading.Channels;
+using AsyncBankApp.Dtos;
 using AsyncBankApp.Services;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,7 +15,14 @@ builder.Services.AddDbContext<TrcDbContext>(options =>
     options.UseSqlite("Data Source=Transactions.db"));
 builder.Services.AddScoped<TransactionService>();
 builder.Services.AddScoped<TransactionRepository>();
-
+builder.Services.AddSingleton( c =>
+{
+    var channel = Channel.CreateBounded<TransactionExporterJob>(new BoundedChannelOptions(100)
+    {
+        FullMode = BoundedChannelFullMode.Wait
+    });
+    return channel;
+});
 var app = builder.Build();
 
 var exportsDir = Path.Combine(app.Environment.ContentRootPath, "Exports");
