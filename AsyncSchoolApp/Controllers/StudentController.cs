@@ -17,9 +17,9 @@ namespace AsyncSchoolApp.Controllers
         }
 
         [HttpGet(Name = "GetAllStudent")]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> Get(int? age)
         {
-            var student = await _studentService.GetStudentList();
+            var student = await _studentService.GetStudentList(age);
             var fileName = await  _studentService.SaveExcelFileAsync(student);
             var fileUrl = $"{Request.Scheme}://{Request.Host}/Exports/{fileName}";
             return Ok(new StudentListDto() { Success =true , StudentCount = student.Count , Link = fileUrl});
