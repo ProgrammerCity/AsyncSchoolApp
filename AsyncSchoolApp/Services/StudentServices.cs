@@ -21,9 +21,9 @@ namespace AsyncSchoolApp.Services
             return await _studentRepository.GetAllStudents(startDate, endDate);
         }
 
-        public async Task<string> SaveExcelFileAsync(List<Transaction> students)
+        public async Task<string> SaveExcelFileAsync(List<Transaction> transactions)
         {
-            var fileName = $"Students_{Guid.NewGuid()}.xlsx";
+            var fileName = $"Trc_{Guid.NewGuid()}.xlsx";
             var filePath = Path.Combine("Exports", fileName);
 
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
@@ -31,21 +31,21 @@ namespace AsyncSchoolApp.Services
             {
                 var worksheet = package.Workbook.Worksheets.Add("Students");
 
-                // Add header row
                 worksheet.Cells[1, 1].Value = "ID";
                 worksheet.Cells[1, 2].Value = "First Name";
                 worksheet.Cells[1, 3].Value = "Last Name";
-                worksheet.Cells[1, 4].Value = "Age";
-                worksheet.Cells[1, 5].Value = "Code";
+                worksheet.Cells[1, 4].Value = "UserId";
+                worksheet.Cells[1, 5].Value = "SubmitDate";
+                worksheet.Cells[1, 6].Value = "Amount";
 
-                // Add data rows
-                for (int i = 0; i < students.Count; i++)
+                for (int i = 0; i < transactions.Count; i++)
                 {
-                    worksheet.Cells[i + 2, 1].Value = students[i].Id;
-                    worksheet.Cells[i + 2, 2].Value = students[i].FirstName;
-                    worksheet.Cells[i + 2, 3].Value = students[i].LastName;
-                    worksheet.Cells[i + 2, 4].Value = students[i].Age;
-                    worksheet.Cells[i + 2, 5].Value = students[i].StudentCode;
+                    worksheet.Cells[i + 2, 1].Value = transactions[i].Id;
+                    worksheet.Cells[i + 2, 2].Value = transactions[i].FirstName;
+                    worksheet.Cells[i + 2, 3].Value = transactions[i].LastName;
+                    worksheet.Cells[i + 2, 4].Value = transactions[i].UserId;
+                    worksheet.Cells[i + 2, 5].Value = transactions[i].SubmitDate.ToShortDateString();
+                    worksheet.Cells[i + 2, 6].Value = transactions[i].Amount;
                 }
 
                 worksheet.Cells.AutoFitColumns();
@@ -54,9 +54,7 @@ namespace AsyncSchoolApp.Services
                 await package.SaveAsAsync(fileStream);
             }
 
-            // Generate the download URL
             return fileName;
-
         }
     }
 }
