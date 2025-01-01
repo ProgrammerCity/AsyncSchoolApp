@@ -1,6 +1,7 @@
 ﻿using AsyncSchoolApp.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Drawing;
 
 namespace AsyncSchoolApp.Services
 {
@@ -16,27 +17,42 @@ namespace AsyncSchoolApp.Services
         {
             _context.Database.EnsureCreated();
 
-            if (!await _context.Students.AnyAsync())
+            if (!await _context.Transactions.AnyAsync())
             {
-                for (int i = 1; i <= 10000; i++)
+                Random rnd = new();
+                DateTime start = new(1990, 1, 1);
+                int range = (DateTime.Today - start).Days;
+                int id = 1;
+                for (int i = 1; i <= 1000; i++)
                 {
-                    _context.Students.Add(new Student
+                    for (int c = 1; c <= 1000; c++)
                     {
-                        FirstName = $"FirstName{i}",
-                        LastName = $"LastName{i}",
-                        Age = new Random().Next(8, 14),
-                        StudentCode = new Random().Next(2010, 3030)
-                    });
+                        await _context.Transactions.AddAsync(new Transaction
+                        {
+                            Id = id,
+                            UserId = i,
+                            FirstName = $"FirstName{i}",
+                            LastName = $"LastName{i}",
+                            SubmitDate = start.AddDays(rnd.Next(range)),
+                            Amount = rnd.Next(1_000_000, 5_000_000)
+                        });
+                        id++;
+                    }
+                    
+                    if (i % 100 == 0) 
+                    {
+                        await _context.SaveChangesAsync();
+                    }
                 }
-                await _context.SaveChangesAsync();
             }
         }
 
-        public async Task<List<Student>> GetAllStudents(int? age)
+        public async Task<List<Transaction>> GetAllStudents(long? startDate, long? endDate)
         {
             //await Task.Delay(10_000);
-            return await _context.Students
-                .Where(x => age == null || x.Age == age)
+            return await _context.Transactions
+                .Where(x => startDate == null || x.SubmitDate == DateTimeOffset.FromUnixTimeMilliseconds(startDate.Value).DateTime)
+                .Where(x => endDate == null || x.SubmitDate == DateTimeOffset.FromUnixTimeMilliseconds(endDate.Value).DateTime)
                 .ToListAsync();
         }
     }

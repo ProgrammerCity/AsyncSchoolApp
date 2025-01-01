@@ -16,12 +16,12 @@ namespace AsyncSchoolApp.Services
             await _studentRepository.InitializeDatabase();
         }
 
-        public async Task<List<Student>> GetStudentList(int? age)
+        public async Task<List<Transaction>> GetStudentList(long? startDate, long? endDate)
         {
-            return await _studentRepository.GetAllStudents(age);
+            return await _studentRepository.GetAllStudents(startDate, endDate);
         }
 
-        public async Task<string> SaveExcelFileAsync(List<Student> students)
+        public async Task<string> SaveExcelFileAsync(List<Transaction> students)
         {
             var fileName = $"Students_{Guid.NewGuid()}.xlsx";
             var filePath = Path.Combine("Exports", fileName);

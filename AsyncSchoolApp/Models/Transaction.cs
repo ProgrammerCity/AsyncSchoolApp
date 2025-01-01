@@ -1,11 +1,12 @@
 ﻿namespace AsyncSchoolApp.Models
 {
-    public class Student
+    public class Transaction
     {
         public int Id { get; set; }
+        public int UserId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public int Age { get; set; }
-        public int StudentCode { get; set; }
+        public DateTime SubmitDate { get; set; } 
+        public int Amount { get; set; }
     }
 }

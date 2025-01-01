@@ -7,6 +7,6 @@ namespace AsyncSchoolApp.Services
     {
         public StuDbContext(DbContextOptions<StuDbContext> options) : base(options) { }
 
-        public DbSet<Student> Students { get; set; }
+        public DbSet<Transaction> Transactions { get; set; }
     }
 }
