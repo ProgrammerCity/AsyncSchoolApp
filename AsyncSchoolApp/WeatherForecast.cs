@@ -1,4 +1,4 @@
-namespace AsyncSchoolApp
+namespace AsyncBankApp
 {
     public class WeatherForecast
     {

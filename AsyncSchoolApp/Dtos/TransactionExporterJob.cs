@@ -1,6 +1,6 @@
-﻿namespace AsyncSchoolApp.Dtos
+﻿namespace AsyncBankApp.Dtos
 {
-    public class StudentExporterJob
+    public class TransactionExporterJob
     {
         public Guid Id { get; set; }
         public string Path { get; set; } = default!;

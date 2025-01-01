@@ -1,15 +1,15 @@
-﻿using AsyncSchoolApp.Models;
+﻿using AsyncBankApp.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Drawing;
 
-namespace AsyncSchoolApp.Services
+namespace AsyncBankApp.Services
 {
-    public class StudentRepository
+    public class TransactionRepository
     {
-        private readonly StuDbContext _context;
+        private readonly TrcDbContext _context;
 
-        public StudentRepository(StuDbContext context)
+        public TransactionRepository(TrcDbContext context)
         {
             _context = context;
         }
@@ -23,9 +23,9 @@ namespace AsyncSchoolApp.Services
                 DateTime start = new(1990, 1, 1);
                 int range = (DateTime.Today - start).Days;
                 int id = 1;
-                for (int i = 1; i <= 1000; i++)
+                for (int i = 1; i <= 100; i++)
                 {
-                    for (int c = 1; c <= 1000; c++)
+                    for (int c = 1; c <= 100; c++)
                     {
                         await _context.Transactions.AddAsync(new Transaction
                         {
@@ -38,16 +38,12 @@ namespace AsyncSchoolApp.Services
                         });
                         id++;
                     }
-                    
-                    if (i % 100 == 0) 
-                    {
-                        await _context.SaveChangesAsync();
-                    }
                 }
+                await _context.SaveChangesAsync();
             }
         }
 
-        public async Task<List<Transaction>> GetAllStudents(long? startDate, long? endDate)
+        public async Task<List<Transaction>> GetAllTransactions(long? startDate, long? endDate)
         {
             //await Task.Delay(10_000);
             return await _context.Transactions

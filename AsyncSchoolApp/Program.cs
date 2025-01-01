@@ -1,5 +1,5 @@
-using AsyncSchoolApp.Dtos;
-using AsyncSchoolApp.Services;
+using AsyncBankApp.Dtos;
+using AsyncBankApp.Services;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Concurrent;
@@ -13,13 +13,13 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<StuDbContext>(options =>
-    options.UseSqlite("Data Source=Students.db"));
-builder.Services.AddScoped<StudentService>();
-builder.Services.AddScoped<StudentRepository>();
+builder.Services.AddDbContext<TrcDbContext>(options =>
+    options.UseSqlite("Data Source=Transactions.db"));
+builder.Services.AddScoped<TransactionService>();
+builder.Services.AddScoped<TransactionRepository>();
 builder.Services.AddSingleton( c =>
 {
-    var channel = Channel.CreateBounded<StudentExporterJob>(new BoundedChannelOptions(100)
+    var channel = Channel.CreateBounded<TransactionExporterJob>(new BoundedChannelOptions(100)
     {
         FullMode = BoundedChannelFullMode.Wait
     });

@@ -1,24 +1,24 @@
-﻿using AsyncSchoolApp.Models;
+﻿using AsyncBankApp.Models;
 using OfficeOpenXml;
 
-namespace AsyncSchoolApp.Services
+namespace AsyncBankApp.Services
 {
-    public class StudentService
+    public class TransactionService
     {
-        private readonly StudentRepository _studentRepository;
-        public StudentService(StudentRepository studentRepository)
+        private readonly TransactionRepository _TransactionRepository;
+        public TransactionService(TransactionRepository TransactionRepository)
         {
-            _studentRepository = studentRepository;
+            _TransactionRepository = TransactionRepository;
         }
 
         public async Task InitializeDatabase()
         {
-            await _studentRepository.InitializeDatabase();
+            await _TransactionRepository.InitializeDatabase();
         }
 
-        public async Task<List<Transaction>> GetStudentList(long? startDate, long? endDate)
+        public async Task<List<Transaction>> GetTransactionList(long? startDate, long? endDate)
         {
-            return await _studentRepository.GetAllStudents(startDate, endDate);
+            return await _TransactionRepository.GetAllTransactions(startDate, endDate);
         }
 
         public async Task<string> SaveExcelFileAsync(List<Transaction> transactions)
@@ -29,7 +29,7 @@ namespace AsyncSchoolApp.Services
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             using (var package = new ExcelPackage())
             {
-                var worksheet = package.Workbook.Worksheets.Add("Students");
+                var worksheet = package.Workbook.Worksheets.Add("Transactions");
 
                 worksheet.Cells[1, 1].Value = "ID";
                 worksheet.Cells[1, 2].Value = "First Name";

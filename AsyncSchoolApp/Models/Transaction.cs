@@ -1,4 +1,4 @@
-﻿namespace AsyncSchoolApp.Models
+﻿namespace AsyncBankApp.Models
 {
     public class Transaction
     {

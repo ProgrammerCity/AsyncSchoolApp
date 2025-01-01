@@ -1,4 +1,4 @@
-﻿namespace AsyncSchoolApp.Dtos
+﻿namespace AsyncBankApp.Dtos
 {
     public enum JobStatus
     {
