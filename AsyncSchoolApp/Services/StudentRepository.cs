@@ -32,10 +32,12 @@ namespace AsyncSchoolApp.Services
             }
         }
 
-        public async Task<List<Student>> GetAllStudents()
+        public async Task<List<Student>> GetAllStudents(int? age)
         {
             //await Task.Delay(10_000);
-            return await _context.Students.ToListAsync();
+            return await _context.Students
+                .Where(x => age == null || x.Age == age)
+                .ToListAsync();
         }
     }
 }

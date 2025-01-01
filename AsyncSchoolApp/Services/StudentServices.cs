@@ -16,9 +16,9 @@ namespace AsyncSchoolApp.Services
             await _studentRepository.InitializeDatabase();
         }
 
-        public async Task<List<Student>> GetStudentList()
+        public async Task<List<Student>> GetStudentList(int? age)
         {
-            return await _studentRepository.GetAllStudents();
+            return await _studentRepository.GetAllStudents(age);
         }
 
         public async Task<string> SaveExcelFileAsync(List<Student> students,Guid id)
