@@ -16,9 +16,9 @@ namespace AsyncBankApp.Services
             await _TransactionRepository.InitializeDatabase();
         }
 
-        public async Task<List<Transaction>> GetTransactionList(long? startDate, long? endDate)
+        public async Task<List<Transaction>> GetTransactionList(int userId, long? startDate, long? endDate)
         {
-            return await _TransactionRepository.GetAllTransactions(startDate, endDate);
+            return await _TransactionRepository.GetAllTransactions(userId,startDate, endDate);
         }
 
         public async Task<string> SaveExcelFileAsync(List<Transaction> transactions)

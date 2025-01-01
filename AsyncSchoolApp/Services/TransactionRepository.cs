@@ -41,12 +41,13 @@ namespace AsyncBankApp.Services
             }
         }
 
-        public async Task<List<Transaction>> GetAllTransactions(long? startDate, long? endDate)
+        public async Task<List<Transaction>> GetAllTransactions(int userId, long? startDate, long? endDate)
         {
             //await Task.Delay(10_000);
             return await _context.Transactions
                 .Where(x => startDate == null || x.SubmitDate >= DateTimeOffset.FromUnixTimeSeconds(startDate.Value).DateTime)
                 .Where(x => endDate == null || x.SubmitDate < DateTimeOffset.FromUnixTimeSeconds(endDate.Value).DateTime)
+                .Where(x => x.UserId == userId)
                 .OrderBy(x => x.SubmitDate)
                 .ToListAsync();
         }

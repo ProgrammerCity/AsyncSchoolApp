@@ -17,9 +17,9 @@ namespace AsyncBankApp.Controllers
         }
 
         [HttpGet(Name = "GetAllTransaction")]
-        public async Task<IActionResult> Get(long? startDate, long? endDate)
+        public async Task<IActionResult> Get(int userId, long? startDate, long? endDate)
         {
-            var Transaction = await _TransactionService.GetTransactionList(startDate, endDate);
+            var Transaction = await _TransactionService.GetTransactionList(userId, startDate, endDate);
             var fileName = await _TransactionService.SaveExcelFileAsync(Transaction);
             var fileUrl = $"{Request.Scheme}://{Request.Host}/Exports/{fileName}";
             return Ok(new TransactionListDto() { Success = true, TransactionCount = Transaction.Count, Link = fileUrl });
