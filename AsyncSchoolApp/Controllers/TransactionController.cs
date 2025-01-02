@@ -18,6 +18,7 @@ namespace AsyncBankApp.Controllers
             //var Transactions = await transactionService.GetTransactionList(userId, startDate, endDate);
             //var fileName = await transactionService.SaveExcelFileAsync(Transactions);
             //var fileUrl = $"{Request.Scheme}://{Request.Host}/Exports/{fileName}";
+            //return Ok(new TransactionListDto() { Success = true, TransactionCount = Transactions.Count, Link = fileUrl });
             return Accepted(new { Success = true , message= "Your request was successfully submitted." });
         }
 
