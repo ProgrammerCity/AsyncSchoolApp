@@ -15,7 +15,7 @@ builder.Services.AddDbContext<TrcDbContext>(options =>
     options.UseSqlite("Data Source=Transactions.db"));
 builder.Services.AddScoped<TransactionService>();
 builder.Services.AddScoped<TransactionRepository>();
-builder.Services.AddSingleton( c =>
+builder.Services.AddSingleton(c =>
 {
     var channel = Channel.CreateBounded<TransactionExporterJob>(new BoundedChannelOptions(100)
     {
