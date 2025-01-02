@@ -15,10 +15,10 @@ namespace AsyncBankApp.Controllers
         {
 
             await channel.Writer.WriteAsync(new TransactionExporterJob(userId, startDate, endDate));
-            //var Transaction = await transactionService.GetTransactionList(userId, startDate, endDate);
-            //var fileName = await transactionService.SaveExcelFileAsync(Transaction);
+            //var Transactions = await transactionService.GetTransactionList(userId, startDate, endDate);
+            //var fileName = await transactionService.SaveExcelFileAsync(Transactions);
             //var fileUrl = $"{Request.Scheme}://{Request.Host}/Exports/{fileName}";
-            return Accepted(new { Success = true });
+            return Accepted(new { Success = true , message= "Your request was successfully submitted." });
         }
 
         [HttpPost("initialize")]

@@ -23,6 +23,8 @@ builder.Services.AddSingleton( c =>
     });
     return channel;
 });
+
+builder.Services.AddHostedService<StatementBackgroundService>();
 var app = builder.Build();
 
 var exportsDir = Path.Combine(app.Environment.ContentRootPath, "Exports");
