@@ -26,7 +26,7 @@ namespace AsyncBankApp.Services
                     try
                     {
                         var transactions = await transactionService.GetTransactionList(req.UserId, req.StartDate, req.EndDate);
-                        await Task.Delay(1000);
+                        await Task.Delay(1000, stoppingToken);
                         var fileName = await transactionService.SaveExcelFileAsync(transactions);
                         // save file name to datebase 
                         // send notif to user

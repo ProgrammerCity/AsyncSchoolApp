@@ -17,7 +17,7 @@ builder.Services.AddScoped<TransactionService>();
 builder.Services.AddScoped<TransactionRepository>();
 builder.Services.AddSingleton(c =>
 {
-    var channel = Channel.CreateBounded<TransactionExporterJob>(new BoundedChannelOptions(100)
+    var channel = Channel.CreateBounded<TransactionExporterJob>(new BoundedChannelOptions(50)
     {
         FullMode = BoundedChannelFullMode.Wait
     });
