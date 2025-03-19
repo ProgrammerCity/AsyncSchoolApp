@@ -1,0 +1,432 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "seconds"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "d3c828d3-86cc-4f0e-9ba2-d9c3f76d782f",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "returnAll": true,
+        "filter": {
+          "folderId": {
+            "__rl": true,
+            "value": "1ShhFTv6qtYFWe0qxzC8i5B0Aft84lSy1",
+            "mode": "list",
+            "cachedResultName": "YouTube",
+            "cachedResultUrl": "https://drive.google.com/drive/folders/1ShhFTv6qtYFWe0qxzC8i5B0Aft84lSy1"
+          },
+          "whatToSearch": "files"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        180,
+        0
+      ],
+      "id": "8d3c37a1-64e6-4a8d-9451-5f071cb62dfc",
+      "name": "DriveVideos",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "c2VVES5cwVm9BAqf",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1wxBOIdpH3vLVmzjjpqGMzGpF5PudisWsr-AW2RwLB8U",
+          "mode": "list",
+          "cachedResultName": "VideoNamess",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1wxBOIdpH3vLVmzjjpqGMzGpF5PudisWsr-AW2RwLB8U/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1wxBOIdpH3vLVmzjjpqGMzGpF5PudisWsr-AW2RwLB8U/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        280,
+        400
+      ],
+      "id": "b3c524af-bfd2-4bd2-818c-b57c5e19ff5e",
+      "name": "SheetsIds",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "ZWE4gSrueS6NenzH",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "video",
+        "operation": "upload",
+        "title": "test",
+        "regionCode": "IQ",
+        "categoryId": "28",
+        "binaryProperty": "=data",
+        "options": {
+          "description": "test",
+          "privacyStatus": "private"
+        }
+      },
+      "type": "n8n-nodes-base.youTube",
+      "typeVersion": 1,
+      "position": [
+        1000,
+        380
+      ],
+      "id": "e040834b-b087-4bd7-8729-622f7c6ad2f1",
+      "name": "YouTube1",
+      "credentials": {
+        "youTubeOAuth2Api": {
+          "id": "dW5fIpKuWKkOiEb7",
+          "name": "YouTube account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $('Loop Over Items').first().json.id }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        820,
+        380
+      ],
+      "id": "ab3306eb-25f0-4697-aec3-4dbbc46b3b71",
+      "name": "DownloadVid",
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "c2VVES5cwVm9BAqf",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        40,
+        380
+      ],
+      "id": "8e4e4154-1a46-4075-8bb9-8e8815bb2200",
+      "name": "Loop Over Items",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "1caab7fd-c3eb-428d-8ae5-0f90714f2af1",
+              "leftValue": "={{ $json.exists }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "false",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        640,
+        400
+      ],
+      "id": "7d2e77d7-46a4-4643-a54f-d3ae90cb7ca2",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1wxBOIdpH3vLVmzjjpqGMzGpF5PudisWsr-AW2RwLB8U",
+          "mode": "list",
+          "cachedResultName": "VideoNamess",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1wxBOIdpH3vLVmzjjpqGMzGpF5PudisWsr-AW2RwLB8U/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1wxBOIdpH3vLVmzjjpqGMzGpF5PudisWsr-AW2RwLB8U/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Id": "={{ $('Loop Over Items').first().json.id }}",
+            "video Name": "={{ $('Loop Over Items').first().json.name }}",
+            "DateAdd": "={{Date()}}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Id",
+              "displayName": "Id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "video Name",
+              "displayName": "video Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "DateAdd",
+              "displayName": "DateAdd",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        1160,
+        380
+      ],
+      "id": "20fc1397-7ef8-48f3-9494-86b2c62870b6",
+      "name": "Write_to_sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "ZWE4gSrueS6NenzH",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "67995416",
+        "text": "={{ $json[\"video Name\"] + \"\\n \\nUpload is done 🚀\" }}\n",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1360,
+        380
+      ],
+      "id": "97c6920c-cb15-49ed-a25d-02ebdabd0af4",
+      "name": "SendDone",
+      "webhookId": "c32b34b0-8efc-4ec5-a862-d06f029f4fb6",
+      "credentials": {
+        "telegramApi": {
+          "id": "9YwsiX6K9Xj469WP",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const vid = $('SheetsIds').all().map(item => item.json.Id.trim());\nreturn [\n  {\n    json: {\n      exists: vid.includes($('Loop Over Items').first().json.id.trim())\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        460,
+        400
+      ],
+      "id": "a4b177ae-7ad2-4682-8b8a-ead52f9c8f84",
+      "name": "VidCode",
+      "alwaysOutputData": true
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "DriveVideos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "DriveVideos": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SheetsIds": {
+      "main": [
+        [
+          {
+            "node": "VidCode",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "YouTube1": {
+      "main": [
+        [
+          {
+            "node": "Write_to_sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "DownloadVid": {
+      "main": [
+        [
+          {
+            "node": "YouTube1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "SheetsIds",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "DownloadVid",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Write_to_sheet": {
+      "main": [
+        [
+          {
+            "node": "SendDone",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SendDone": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "VidCode": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "c4ee5a92-438f-4152-8bd5-8589dcbb2ac4",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "9ffcfd336f29fdf490243f91599a821d180513b52d6b888658da6bb1abac329b"
+  },
+  "id": "vX0GOzvUmt1wL4ay",
+  "tags": []
+}
